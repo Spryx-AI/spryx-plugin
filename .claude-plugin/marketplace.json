@@ -1,0 +1,17 @@
+{
+  "name": "spryx-plugins",
+  "owner": {
+    "name": "Spryx",
+    "url": "https://www.spryx.ai/"
+  },
+  "metadata": {
+    "description": "Spryx CRM, inbox and task workflows."
+  },
+  "plugins": [
+    {
+      "name": "spryx",
+      "source": "./",
+      "description": "Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your Spryx workspace via MCP, plus skills for sales and customer service workflows."
+    }
+  ]
+}

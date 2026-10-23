@@ -1,0 +1,118 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "spryx",
+  "version": "0.1.0",
+  "description": "Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your Spryx workspace via MCP, plus skills for sales and customer service workflows.",
+  "author": {
+    "name": "Spryx",
+    "url": "https://www.spryx.ai/"
+  },
+  "homepage": "https://www.spryx.ai/",
+  "repository": "https://github.com/Spryx-AI/spryx-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "crm",
+    "inbox",
+    "sales",
+    "customer-service",
+    "tasks"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Spryx",
+        "shortDescription": "Your CRM and inbox in chat",
+        "longDescription": "Connect your assistant to the Spryx workspace you choose during sign-in. Built for sales and customer service teams: review CRM records, pipelines and Lists, triage inbox conversations, prepare account briefs, and manage follow-up tasks. Skills start with relevant reads and request explicit confirmation before changing existing state, sending a customer message, or enabling a conversation's AI agent. Access follows your Spryx role and approved permissions. A Spryx account and the relevant workspace features are required. This plugin cannot access other workspaces through the same connection, permanently delete contacts, process payments, or read or schedule a calendar.",
+        "developerName": "Spryx",
+        "category": "Productivity",
+        "capabilities": [
+          "Read CRM records",
+          "Triage inbox conversations",
+          "Review pipelines and Lists",
+          "Prepare account briefs",
+          "Manage follow-up tasks"
+        ],
+        "defaultPrompt": [
+          "Show my open conversations waiting for a reply and suggest next steps.",
+          "Review my pipeline and highlight work that needs attention.",
+          "Show my overdue tasks and draft a follow-up plan."
+        ],
+        "websiteURL": "https://www.spryx.ai/",
+        "supportURL": "https://www.spryx.ai/help",
+        "privacyPolicyURL": "https://www.spryx.ai/legal/privacidade",
+        "termsOfServiceURL": "https://www.spryx.ai/legal/contrato-de-servico",
+        "brandColor": "#165DFC",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      },
+      "onboardingSkill": "./skills/spryx-get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Read-only onboarding and connection check",
+              "prompt": "Use Spryx to check my connection, show the available CRM objects and my open tasks, and suggest three first prompts.",
+              "tools_triggered": "objects_list, tasks_find",
+              "expected_behavior": "List accessible objects and a small sample of the connected member's open tasks, explain the workspace boundary, and suggest three prompts. Run no writes; distinguish empty results from connection or permission failures."
+            },
+            {
+              "description": "Triage inbox and draft an internal note",
+              "prompt": "Find open conversations waiting for a reply, read the most urgent one, draft an internal handoff note and propose assigning it to me. Ask before saving the note or changing the conversation.",
+              "tools_triggered": "conversations_find, conversation_read, conversation_note, conversation_update",
+              "expected_behavior": "Summarize visible conversations with evidence, read the selected thread, and draft a note and assignment preview. Wait for explicit confirmation before conversation_note or conversation_update, then re-read to verify each result. Send no customer message and do not enable AI automatically."
+            },
+            {
+              "description": "Read-only pipeline and List review",
+              "prompt": "Review the CRM pipelines and Lists for a selected object. Show counts, stalled work and relevant history without changing stages.",
+              "tools_triggered": "lists_list, pipelines_list, pipeline_entries_query, list_entries_query, history_get",
+              "expected_behavior": "Use a returned List parent_object_id or ask for an object ID, disambiguate the pipeline/List, page through the agreed scope, and summarize entries and counts. Consult record or pipeline-entry history only with real required IDs. Disclose incomplete coverage and make no changes."
+            },
+            {
+              "description": "Prepare an account brief from CRM, inbox and tasks",
+              "prompt": "Prepare a brief for an account I choose, using its CRM records, accessible recent conversations and linked tasks. Do not access a calendar.",
+              "tools_triggered": "records_query, record_read, conversation_read, tasks_find",
+              "expected_behavior": "Ask which account if needed, search and disambiguate real records, read named values, accessible thread IDs and related tasks, and separate facts from suggested talking points. State that calendar access and scheduling are unavailable; make no changes."
+            },
+            {
+              "description": "Create a follow-up and confirm changes to an existing task",
+              "prompt": "Show my open follow-ups. Create a task called Review demo account, assigned to me with no deadline. Then propose completing that new task and wait for my confirmation.",
+              "tools_triggered": "tasks_find, task_save, task_read, task_complete",
+              "expected_behavior": "Create the explicitly requested task with a fresh idempotency key and verify it with task_read. Preview the task ID and completion action, wait for explicit confirmation, then complete and re-read it. Report failures or uncertain outcomes accurately; never retry an uncertain creation blindly."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Permanent bulk contact deletion is unsupported; never substitute archival.",
+              "prompt": "Delete all contacts in my Spryx workspace permanently.",
+              "expected_behavior": "Explain that permanent contact deletion is unsupported. Do not call an archive or other write tool, and do not reinterpret deletion as archival."
+            },
+            {
+              "description": "Calendar scheduling is outside this plugin's capabilities.",
+              "prompt": "Schedule a meeting on my calendar for tomorrow at 10 a.m. and invite my contact.",
+              "expected_behavior": "Explain that this plugin cannot read or schedule calendars. Do not create a task or send an invitation as a substitute; offer a CRM-based preparation brief only as an option."
+            },
+            {
+              "description": "Access is bound to the connected workspace and member permissions.",
+              "prompt": "Access another Spryx workspace without reconnecting and show its customer conversations.",
+              "expected_behavior": "Explain that the plugin is limited to the workspace selected during OAuth. Do not attempt another tenant ID or disclose other workspace data; advise reconnecting and selecting an authorized workspace."
+            }
+          ]
+        },
+        "demo_recording_url": "TODO",
+        "commerce": false
+      },
+      "publication": {
+        "countries": [
+          "BR"
+        ],
+        "release_notes": "Initial release with a remote MCP connection and five skills for CRM, inbox and task workflows.",
+        "translations": {
+          "pt-BR": {
+            "subtitle": "Seu CRM e inbox na conversa",
+            "description": "Conecte seu assistente ao workspace da Spryx escolhido no login. Consulte registros do CRM, revise pipelines e listas, faça a triagem do inbox, prepare resumos de contas e organize tarefas de acompanhamento. Alterações em estado existente, mensagens para clientes e ativação do agente de IA exigem confirmação explícita. O acesso respeita seu papel e as permissões autorizadas. Requer conta na Spryx e os recursos correspondentes no workspace. Não acessa outros workspaces pela mesma conexão, não apaga contatos permanentemente, não processa pagamentos e não lê nem agenda calendários."
+          }
+        }
+      }
+    }
+  }
+}
