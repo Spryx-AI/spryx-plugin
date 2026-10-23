@@ -3,7 +3,7 @@
 ## What it is
 
 Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your
-Spryx workspace (CRM, inbox, pipelines and tasks) via MCP, plus skills for sales
+Spryx workspace via MCP, plus skills for sales
 and customer service workflows.
 
 The plugin contains a remote MCP connection and five shared skills. A Spryx

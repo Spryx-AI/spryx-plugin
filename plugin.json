@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "spryx",
   "version": "0.1.0",
-  "description": "Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your Spryx workspace (CRM, inbox, pipelines and tasks) via MCP, plus skills for sales and customer service workflows.",
+  "description": "Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your Spryx workspace via MCP, plus skills for sales and customer service workflows.",
   "author": {
     "name": "Spryx",
     "url": "https://www.spryx.ai/"
