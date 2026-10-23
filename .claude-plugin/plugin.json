@@ -1,0 +1,13 @@
+{
+  "name": "spryx",
+  "version": "0.1.0",
+  "description": "Official Spryx plugin for Claude and ChatGPT. Connects your AI assistant to your Spryx workspace (CRM, inbox, pipelines and tasks) via MCP, plus skills for sales and customer service workflows.",
+  "author": {
+    "name": "Spryx",
+    "url": "https://www.spryx.ai/"
+  },
+  "homepage": "https://www.spryx.ai/",
+  "repository": "https://github.com/Spryx-AI/spryx-plugin",
+  "license": "Apache-2.0",
+  "displayName": "Spryx"
+}
